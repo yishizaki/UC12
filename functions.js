@@ -12,7 +12,6 @@ function between(string, start, end) {
         throw new Error("No start found: " + start);
     }
     startAt += start.length;
-    345
     var endAt = string.indexOf(end, startAt);
     if (endAt == -1) {
         throw new Error("No end found: " + end);
