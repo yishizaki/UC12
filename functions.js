@@ -12,6 +12,7 @@ function between(string, start, end) {
         throw new Error("No start found: " + start);
     }
     startAt += start.length;
+    345
     var endAt = string.indexOf(end, startAt);
     if (endAt == -1) {
         throw new Error("No end found: " + end);
@@ -51,7 +52,7 @@ function displayAreaCode(inputId, outputId) {
     // Now try to get the code
     try {
         var areaCode = getAreaCode(phoneNum);
-        outputText = "Your area code is " + areaCode;
+        outputText = "Valid phone number. Your area code is " + areaCode;
     }
     catch (error) {
         console.log(error.message);
@@ -59,3 +60,22 @@ function displayAreaCode(inputId, outputId) {
     }
     document.getElementById(outputId).innerHTML = outputText;
 }
+/** Returns if a phone number is valid or invalid in the form: (###) ###-####
+ *@param {string} phoneNum The phone number
+ *@returns {string} Valid or invalid notification
+ *@throws {Error} If the format is incorrect
+
+function validPhoneNumber(phoneNum) {
+    try {
+        if (number.length == 8 && phoneNum.slice(3, 4) == "-" && phoneNum.slice(0, 3) / 1 == phoneNum.slice(0, 3) && phoneNum.slice(4, 8) / 1 == phoneNum.slice(4, 8)) {
+            return "Valid";
+        }
+        else {
+            throw new Error("Invalid");
+        }
+    }
+    catch (error) {
+        throw new Error("invadliddd" + error.message);
+    }
+}
+*/
