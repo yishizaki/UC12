@@ -59,22 +59,64 @@ function displayAreaCode(inputId, outputId) {
     }
     document.getElementById(outputId).innerHTML = outputText;
 }
-/** Returns if a phone number is valid or invalid in the form: (###) ###-####
- *@param {string} phoneNum The phone number
- *@returns {string} Valid or invalid notification
- *@throws {Error} If the format is incorrect
-
-function validPhoneNumber(phoneNum) {
+/**
+ * Removes part of string between two sub strings
+ * @param {string} text The original string
+ * @param {string} start The starting string
+ * @param {string} end The ending string
+ * @return {string} The string in between
+ * @throws (Error} If start or end not found
+ */
+function between2(string, start, end) {
+    var startAt = string.indexOf(start);
+    if (startAt == -1) {
+        throw new Error("No start found: " + start);
+    }
+    startAt += start.length;
+    var endAt = string.indexOf(end, startAt);
+    if (endAt == -1) {
+        throw new Error("No end found: " + end);
+    }
+    return string.slice(startAt, endAt);
+}
+/**
+ * Returns an area code from a phone number: (###) ###-####
+ * @param   {string} phoneNum The phone number
+ * @returns {string} The area code
+ * @throws {Error} If the format is incorrect
+ */
+function getCO(phoneNum) {
+    var CO;
     try {
-        if (number.length == 8 && phoneNum.slice(3, 4) == "-" && phoneNum.slice(0, 3) / 1 == phoneNum.slice(0, 3) && phoneNum.slice(4, 8) / 1 == phoneNum.slice(4, 8)) {
-            return "Valid";
+        CO = between2(phoneNum, " ", "-");
+        CO = CO.trim();
+        if (CO.length == 3 && Number(CO)) {
+            return CO;
         }
         else {
-            throw new Error("Invalid");
+            throw new Error("Invalid central office: " + CO);
         }
     }
     catch (error) {
-        throw new Error("invadliddd" + error.message);
+        throw new Error("Invalid phone number: " + error.message);
     }
 }
-*/
+/**
+ * Displays the area code for an inputted phone number
+ * @param {string} inputId  The element id for the text box
+ * @param {string} outputId The element id of message div
+ */
+function displayCO(inputId, outputId) {
+    var outputText = "";
+    var phoneNum = document.getElementById(inputId).value;
+    // Now try to get the code
+    try {
+        var CO = getCO(phoneNum);
+        outputText = "Valid phone number. Your central office is " + CO;
+    }
+    catch (error) {
+        console.log(error.message);
+        outputText = error.message;
+    }
+    document.getElementById(outputId).innerHTML = outputText;
+}
